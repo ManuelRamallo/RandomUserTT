@@ -49,6 +49,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    hilt {
+        enableAggregatingTask = false
+    }
 }
 
 dependencies {
@@ -66,12 +69,14 @@ dependencies {
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.navigation)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.hilt.navigation)
+    implementation(libs.hilt.navigation.fragment)
+
+    implementation(libs.navigation.compose)
 
     implementation(libs.coil.compose)
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
-
-    implementation(libs.navigationCompose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
