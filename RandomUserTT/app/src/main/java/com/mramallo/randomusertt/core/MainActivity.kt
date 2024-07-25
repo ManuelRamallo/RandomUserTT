@@ -1,4 +1,4 @@
-package com.mramallo.randomusertt
+package com.mramallo.randomusertt.core
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
