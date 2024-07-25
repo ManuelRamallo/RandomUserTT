@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             RandomUserTTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "Manuel Ramallo",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
