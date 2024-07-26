@@ -7,11 +7,11 @@ import retrofit2.http.Query
 
 interface RandomUserTTApi {
 
-    @GET("/api/users")
+    @GET("/api/")
     suspend fun getRandomUsers(
         @Query("page") page: Int,
         @Query("per_page") per_page: Int
-    ): Response<RandomUserListDto>
+    ): RandomUserListDto
 
 
 }

@@ -19,14 +19,10 @@ class RandomUserPagingSource @Inject constructor(private val randomUserApi: Rand
         return try {
             val page = params.key ?: 1
             val response = randomUserApi.getRandomUsers(page, 6)
-            val randomUsers = response.body()?.data
+            val randomUsers = response.results
 
             val prevKey = if (page > 0) page -1 else null
-            val nextKey = if(response.body()?.data?.isNotEmpty() == true) page + 1 else null
-
-            if(randomUsers.isNullOrEmpty()){
-                LoadState.Error(throw Exception("No hay resultados disponibles"))
-            }
+            val nextKey = if(response.results.isNullOrEmpty().not()) page + 1 else null
 
             LoadResult.Page(
                 data = randomUsers?.map { it.toRandomUserItem() } ?: emptyList(),

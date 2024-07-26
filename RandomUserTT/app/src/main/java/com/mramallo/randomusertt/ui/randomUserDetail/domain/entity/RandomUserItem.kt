@@ -1,9 +1,12 @@
 package com.mramallo.randomusertt.ui.randomUserDetail.domain.entity
 
 data class RandomUserItem(
-    val id: String,
+    val gender: String,
     val email: String,
-    val firstName: String,
-    val lastName: String,
-    val avatar: String
+    val phone: String,
+    val cell: String,
+    val nat: String,
+    val name: RandomUserName,
+    val location: RandomUserLocation,
+    val picture: RandomUserPicture
 )
