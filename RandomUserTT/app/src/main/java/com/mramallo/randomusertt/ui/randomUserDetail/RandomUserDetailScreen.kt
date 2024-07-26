@@ -17,8 +17,9 @@ import com.mramallo.randomusertt.core.navigation.AppScreens
 import com.mramallo.randomusertt.ui.theme.Theme
 
 @Composable
-fun RandomUserDetail(
-    navController: NavController
+fun RandomUserDetailScreen(
+    navController: NavController,
+    idUser: String?
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -41,6 +42,6 @@ fun RandomUserDetail(
 
 @Preview
 @Composable
-fun RandomUserDetailPreview() {
-    RandomUserDetail(rememberNavController())
+fun RandomUserDetailScreenPreview() {
+    RandomUserDetailScreen(rememberNavController(), "1234")
 }
