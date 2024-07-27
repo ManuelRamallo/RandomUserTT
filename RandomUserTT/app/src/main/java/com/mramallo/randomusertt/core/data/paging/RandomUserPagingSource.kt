@@ -1,6 +1,5 @@
 package com.mramallo.randomusertt.core.data.paging
 
-import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mramallo.randomusertt.core.data.api.RandomUserTTApi
@@ -19,10 +18,10 @@ class RandomUserPagingSource @Inject constructor(private val randomUserApi: Rand
         return try {
             val page = params.key ?: 1
             val response = randomUserApi.getRandomUsers(page, 6)
-            val randomUsers = response.results
+            val randomUsers = response.data
 
             val prevKey = if (page > 0) page -1 else null
-            val nextKey = if(response.results.isNullOrEmpty().not()) page + 1 else null
+            val nextKey = if(response.data.isNullOrEmpty().not()) page + 1 else null
 
             LoadResult.Page(
                 data = randomUsers?.map { it.toRandomUserItem() } ?: emptyList(),

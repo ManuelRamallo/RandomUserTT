@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RandomUserTT</string>
+    <string name="empty_random_users">No se encontraron usuarios</string>
 </resources>

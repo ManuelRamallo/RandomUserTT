@@ -26,7 +26,7 @@ fun RandomUserDetailScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Random user detail")
+        Text(text = "Random user detail, el id es $idUser")
 
         Spacer(modifier = Modifier.height(Theme.spacings.size20))
 
