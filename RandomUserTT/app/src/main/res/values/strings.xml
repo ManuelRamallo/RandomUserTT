@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RandomUserTT</string>
-    <string name="empty_random_users">No se encontraron usuarios</string>
+    <string name="empty_random_users">No users found</string>
+    <string name="error_title_random_users">Connection error</string>
+    <string name="error_subtitle_random_users">A unexpected error has occurred, please try again</string>
 </resources>

@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,7 +58,7 @@ fun RandomUserScreen(
 
         when{
             // Initial load
-            randomUsers.loadState.refresh is LoadState.Loading && randomUsers.itemCount == 0-> {
+            randomUsers.loadState.refresh is LoadState.Loading && randomUsers.itemCount == 0 -> {
                 DisplayProgressBar()
             }
 
@@ -64,20 +67,35 @@ fun RandomUserScreen(
                 DisplayEmptyView()
             }
 
-        }
+            // Error - Connection error or API failed
+            randomUsers.loadState.hasError -> {
+                DisplayErrorView(
+                    tryAgain = { randomUsers.refresh() }
+                )
+            }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
-            horizontalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
-            contentPadding = PaddingValues(Theme.spacings.size40)
-        ) {
-            items(randomUsers.itemCount) {
-                randomUsers[it]?.let { randomUserItem ->
-                    DisplayRandomUser(randomUserItem, navController)
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
+                    horizontalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
+                    contentPadding = PaddingValues(Theme.spacings.size40)
+                ) {
+                    items(randomUsers.itemCount) {
+                        randomUsers[it]?.let { randomUserItem ->
+                            DisplayRandomUser(randomUserItem, navController)
+                        }
+                    }
+                }
+
+                if(randomUsers.loadState.append is LoadState.Loading){
+                    DisplayProgressBar()
                 }
             }
+
         }
+
+
     }
 }
 
@@ -187,6 +205,44 @@ fun DisplayEmptyView() {
             style = TextStyle(fontSize = 24.sp),
             color = Color.Black
         )
+    }
+}
+
+@Composable
+fun DisplayErrorView(tryAgain: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(42.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        Icon(
+            painter = painterResource(id =R.drawable.ic_error),
+            contentDescription = "error",
+            modifier = Modifier.size(80.dp)
+        )
+        Spacer(modifier = Modifier.padding(vertical = Theme.spacings.size30))
+        Text(
+            text = stringResource(id = R.string.error_title_random_users),
+            style = TextStyle(fontSize = 24.sp),
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.padding(vertical = Theme.spacings.size10))
+        Text(
+            text = stringResource(id = R.string.error_subtitle_random_users),
+            style = TextStyle(fontSize = 18.sp),
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.padding(vertical = Theme.spacings.size30))
+        Button(
+            onClick = { tryAgain() },
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(text = "Try again")
+        }
     }
 }
 
