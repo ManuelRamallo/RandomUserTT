@@ -3,4 +3,9 @@
     <string name="empty_random_users">No users found</string>
     <string name="error_title_random_users">Connection error</string>
     <string name="error_subtitle_random_users">A unexpected error has occurred, please try again</string>
+    <string name="description_user">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Fusce malesuada, massa ac venenatis tincidunt, eros metus malesuada arcu, eu ullamcorper elit dui et massa.
+        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+        Vestibulum pulvinar tempus tortor at varius. Vivamus pellentesque luctus enim vel interdum.
+        Maecenas efficitur molestie vehicula. Mauris sit amet purus nec purus sagittis rhoncus.</string>
 </resources>

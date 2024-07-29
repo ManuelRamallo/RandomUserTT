@@ -19,8 +19,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +48,9 @@ import com.mramallo.randomusertt.R
 import com.mramallo.randomusertt.core.navigation.AppScreens
 import com.mramallo.randomusertt.ui.randomUserDetail.domain.entity.RandomUserItem
 import com.mramallo.randomusertt.ui.theme.Theme
+import com.mramallo.randomusertt.ui.theme.secondary
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RandomUserScreen(
     navController: NavController,
@@ -53,54 +58,70 @@ fun RandomUserScreen(
 ) {
     var randomUsers = randomUserViewModel.randomUsers.collectAsLazyPagingItems()
 
-    Column {
-        Text("Aquí va el buscador")
-
-        when{
-            // Initial load
-            randomUsers.loadState.refresh is LoadState.Loading && randomUsers.itemCount == 0 -> {
-                DisplayProgressBar()
-            }
-
-            // Error - No loading and no data available
-            randomUsers.loadState.refresh is LoadState.NotLoading && randomUsers.itemCount == 0 -> {
-                DisplayEmptyView()
-            }
-
-            // Error - Connection error or API failed
-            randomUsers.loadState.hasError -> {
-                DisplayErrorView(
-                    tryAgain = { randomUsers.refresh() }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        color = Color.White,
+                        style = TextStyle(fontSize = 16.sp)
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = secondary
                 )
-            }
+            )
+        }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Text("Aquí va el buscador")
 
-            else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    verticalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
-                    horizontalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
-                    contentPadding = PaddingValues(Theme.spacings.size40)
-                ) {
-                    items(randomUsers.itemCount) {
-                        randomUsers[it]?.let { randomUserItem ->
-                            DisplayRandomUser(randomUserItem, navController)
-                        }
-                    }
-                }
-
-                if(randomUsers.loadState.append is LoadState.Loading){
+            when{
+                // Initial load
+                randomUsers.loadState.refresh is LoadState.Loading && randomUsers.itemCount == 0 -> {
                     DisplayProgressBar()
                 }
+
+                // Error - No loading and no data available
+                randomUsers.loadState.refresh is LoadState.NotLoading && randomUsers.itemCount == 0 -> {
+                    DisplayEmptyView()
+                }
+
+                // Error - Connection error or API failed
+                randomUsers.loadState.hasError -> {
+                    DisplayErrorView(
+                        tryAgain = { randomUsers.refresh() }
+                    )
+                }
+
+                else -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        verticalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
+                        horizontalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
+                        contentPadding = PaddingValues(Theme.spacings.size40)
+                    ) {
+                        items(randomUsers.itemCount) {
+                            randomUsers[it]?.let { randomUserItem ->
+                                DisplayRandomUser(randomUserItem, navController)
+                            }
+                        }
+                    }
+
+                    if(randomUsers.loadState.append is LoadState.Loading){
+                        DisplayProgressBar()
+                    }
+                }
             }
-
         }
-
-
     }
+
+
 }
 
 @Composable
-fun DisplayRandomUser(randomUserItem: RandomUserItem, navController: NavController) {
+private fun DisplayRandomUser(randomUserItem: RandomUserItem, navController: NavController) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -121,7 +142,7 @@ fun DisplayRandomUser(randomUserItem: RandomUserItem, navController: NavControll
 
 
 @Composable
-fun DisplayImageUser(imageUrl: String) {
+private fun DisplayImageUser(imageUrl: String) {
     AsyncImage(
         model = imageUrl,
         contentDescription = "Avatar user",
@@ -135,7 +156,7 @@ fun DisplayImageUser(imageUrl: String) {
 }
 
 @Composable
-fun DisplayBlur(){
+private fun DisplayBlur(){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -152,7 +173,7 @@ fun DisplayBlur(){
 }
 
 @Composable
-fun DisplayInfoUser(randomUserItem: RandomUserItem){
+private fun DisplayInfoUser(randomUserItem: RandomUserItem){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -188,7 +209,7 @@ fun DisplayProgressBar() {
 }
 
 @Composable
-fun DisplayEmptyView() {
+private fun DisplayEmptyView() {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -209,7 +230,7 @@ fun DisplayEmptyView() {
 }
 
 @Composable
-fun DisplayErrorView(tryAgain: () -> Unit) {
+private fun DisplayErrorView(tryAgain: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -217,8 +238,8 @@ fun DisplayErrorView(tryAgain: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
-        Icon(
-            painter = painterResource(id =R.drawable.ic_error),
+        Image(
+            painter = painterResource(id = R.drawable.error),
             contentDescription = "error",
             modifier = Modifier.size(80.dp)
         )
