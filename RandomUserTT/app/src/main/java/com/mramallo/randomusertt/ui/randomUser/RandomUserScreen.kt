@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -74,9 +75,7 @@ fun RandomUserScreen(
             )
         }
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            Text("Aquí va el buscador")
-
+        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             when{
                 // Initial load
                 randomUsers.loadState.refresh is LoadState.Loading && randomUsers.itemCount == 0 -> {
@@ -100,7 +99,8 @@ fun RandomUserScreen(
                         columns = GridCells.Fixed(2),
                         verticalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
                         horizontalArrangement = Arrangement.spacedBy(Theme.spacings.size30),
-                        contentPadding = PaddingValues(Theme.spacings.size40)
+                        contentPadding = PaddingValues(Theme.spacings.size40),
+                        modifier = Modifier.fillMaxWidth().weight(1f)
                     ) {
                         items(randomUsers.itemCount) {
                             randomUsers[it]?.let { randomUserItem ->
@@ -114,6 +114,14 @@ fun RandomUserScreen(
                     }
                 }
             }
+
+            Text(
+                text = "Developed by Manuel Ramallo Díaz",
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = Theme.spacings.size20, vertical = Theme.spacings.size10),
+                style = TextStyle(fontSize = 12.sp),
+                color = Color.Gray
+            )
         }
     }
 
