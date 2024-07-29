@@ -10,7 +10,7 @@ data class RandomUserItem(
     companion object {
         fun getMock(): RandomUserItem {
             return RandomUserItem(
-                id = "id",
+                id = "1",
                 email = "email",
                 firstName = "firstName",
                 lastName = "lastName",
