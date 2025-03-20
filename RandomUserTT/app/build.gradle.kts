@@ -1,18 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
     alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "com.mramallo.randomusertt"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.mramallo.randomusertt"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,17 +33,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -69,6 +70,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.navigation)
     kapt(libs.dagger.hilt.compiler)
+    kapt(libs.dagger.kapt)
     implementation(libs.hilt.navigation)
     implementation(libs.hilt.navigation.fragment)
 
